@@ -7,8 +7,8 @@ import enviroment from "../enviroment";
 import Assets from "./routes/Assets";
 import Users from "./routes/V9/Users";
 import Experiments from "./routes/V9/Experiments";
-import Auth from "./routes/V9/Register";
-import V9 from "./routes/V9";
+import Auth from "./routes/V9/Auth";
+// import V9 from "./routes/V9";
 
 /// ******************************** END ********************************
 
@@ -48,6 +48,6 @@ export default class Server {
     this.app.use("/api/V9/experiments", Experiments);
     this.app.use("/api/v9/users", Users);
     this.app.use("/api/v9/auth", Auth);
-    this.app.use("/api/v9", V9);
+    // this.app.use("/api/v9", V9);
   }
 }
