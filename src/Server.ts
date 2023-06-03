@@ -34,7 +34,7 @@ export default class Server {
       console.info(`[SERVER]: Morroid has started on port - ${this.port}`);
     });
 
-    this.route():
+    this.route();
   }
 
   /**
