@@ -2,7 +2,7 @@ import { Router } from "express";
 import axios from "axios";
 import settings from "../../../settings";
 const app = Router();
-app.get("/users/:userid/relationships", async (req, res) => {
+app.get("/:userid/relationships", async (req, res) => {
   let {
     username,
     global_name,
@@ -25,7 +25,7 @@ app.get("/users/:userid/relationships", async (req, res) => {
   ]);
 });
 
-app.get("/users/:userid", async (req, res) => {
+app.get("/:userid", async (req, res) => {
   let {
     username,
     avatar,
@@ -55,7 +55,7 @@ app.get("/users/:userid", async (req, res) => {
     banner_color,
   });
 });
-app.get("users/:userid/profile", async (req, res) => {
+app.get("/:userid/profile", async (req, res) => {
   // todo: ?with_mutual_guilds=false&with_mutual_friends_count=false and work for any user
 
   let {
@@ -125,7 +125,7 @@ app.get("users/:userid/profile", async (req, res) => {
     legacy_username: "TestUser",
   });
 });
-app.get("/users/@me/channels", async (req, res) => {
+app.get("/@me/channels", async (req, res) => {
   let {
     id,
     last_message_id,
@@ -159,7 +159,7 @@ app.get("/users/@me/channels", async (req, res) => {
     },
   ]);
 });
-app.get("/users/@me/dms/:userid", async (req, res) => {
+app.get("/@me/dms/:userid", async (req, res) => {
   let {
     last_message_id,
     username,
@@ -188,7 +188,7 @@ app.get("/users/@me/dms/:userid", async (req, res) => {
     ],
   });
 });
-app.get("/users/@me/settings-proto/:int", async (req, res) => {
+app.get("/@me/settings-proto/:int", async (req, res) => {
   if (req.params.int === "1") {
     return res.json({
       settings: settings.settings_test,
@@ -199,7 +199,7 @@ app.get("/users/@me/settings-proto/:int", async (req, res) => {
     });
   }
 });
-app.get("/users/@me/activities/statistics/applications", async (req, res) => {
+app.get("/@me/activities/statistics/applications", async (req, res) => {
   res.json([]);
 });
 app.get("/users/@me/clyde-consent", async (req, res) => {

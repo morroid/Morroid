@@ -17,7 +17,7 @@ interface RegisterPayload {
   consent: boolean;
 }
 
-app.post("/auth/register", async (req, res) => {
+app.post("/register", async (req, res) => {
   const RegisterConfig: RegisterPayload = {
     username: req.body.username,
     email: req.body.email,
