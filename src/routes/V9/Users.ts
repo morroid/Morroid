@@ -207,4 +207,38 @@ app.get("/users/@me/clyde-consent", async (req, res) => {
     consent_status: 0,
   });
 });
+
+app.get("/@me/applications/:id/entitlements", (req, res) => {
+  let {
+    sku_id,
+    application_id,
+    user_id,
+    promotion_id,
+    type,
+    deleted,
+    gift_code_flags,
+    consumed,
+    gifter_user_id,
+    parent_id,
+    subscription_plan,
+  } = req.body;
+
+  res.json([
+    {
+      id: req.params.id,
+      sku_id,
+      application_id,
+      user_id,
+      promotion_id,
+      type,
+      deleted,
+      gift_code_flags,
+      consumed,
+      gifter_user_id,
+      parent_id,
+      subscription_plan: {},
+    },
+  ]);
+});
+
 export = app;
