@@ -9,7 +9,7 @@ lerna-debug.log*
 
 # enviroment files
 environment.ts*
-*.ts
+# *.ts
 
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -134,3 +134,4 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+enviroment.ts
