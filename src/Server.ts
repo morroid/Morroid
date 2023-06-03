@@ -5,7 +5,10 @@ import enviroment from "../enviroment";
 // ******************************** Routes ********************************
 
 import Assets from "./routes/Assets";
-import V9API from "./routes/V9API";
+import Users from "./routes/V9/Users";
+import Experiments from "./routes/V9/Experiments";
+import Auth from "./routes/V9/Register";
+import V9 from "./routes/V9";
 
 /// ******************************** END ********************************
 
@@ -42,6 +45,9 @@ export default class Server {
    */
   route(): void {
     this.app.use("/assets", Assets);
-    this.app.use("/api/v9", V9API);
+    this.app.use("/api/V9/experiments", Experiments);
+    this.app.use("/api/v9/users", Users);
+    this.app.use("/api/v9/auth", Auth);
+    this.app.use("/api/v9", V9);
   }
 }
