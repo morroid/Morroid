@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 // Initialize our UserSchema
 const userSchema = new Schema({
-  snowflake: {
+  id: {
     type: String,
     unique: true,
   },

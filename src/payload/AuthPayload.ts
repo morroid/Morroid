@@ -1,5 +1,5 @@
 export interface RegisterPayload {
-  snowflake: string;
+  id: string;
   username: string;
   email: string;
   password: string;
