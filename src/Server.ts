@@ -9,7 +9,7 @@ import Assets from "./routes/Assets";
 import Users from "./routes/V9/Users";
 import Stickerpacks from "./routes/V9/Sticker-packs";
 import Experiments from "./routes/V9/Experiments";
-import Experiments from "./routes/V9/Science";
+import Science from "./routes/V9/Science";
 import Auth from "./routes/V9/Auth";
 import Applications from "./routes/V9/Applications";
 import Channels from "./routes/V9/Channels";
