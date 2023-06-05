@@ -1,41 +1,51 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import jsonwebtoken from "jsonwebtoken";
+import { generateToken } from "../../utils/generateToken";
+import UserSchema from "../../models/UserSchema";
+import { RegisterPayload } from "../../payload/AuthPayload";
 const app = express();
 
-// hard coded for now.
-
-interface RegisterPayload {
-  username: string;
-  email: string;
-  password: string;
-  fingerprint: string;
-  invite: string;
-  date_of_birth: string; // yyyy/mm/dd
-  gift_code_sku_id: string;
-  captcha_key: string;
-  consent: boolean;
-}
-
 app.post("/register", async (req, res) => {
+  let {
+    username,
+    email,
+    password,
+    consent,
+    invite,
+    fingerprint,
+    gift_code_sku_id,
+    captcha_key,
+    date_of_birth,
+  } = req.body;
+
   const RegisterConfig: RegisterPayload = {
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    consent: req.body.consent,
-    invite: req.body.invite,
-    fingerprint: req.body.fingerprint,
-    gift_code_sku_id: req.body.gift_code_sku_id,
-    captcha_key: req.body.captcha_key,
-    date_of_birth: req.body.date_of_birth,
+    username,
+    email,
+    password,
+    consent,
+    invite,
+    fingerprint,
+    gift_code_sku_id,
+    captcha_key,
+    date_of_birth,
   };
 
-  const hashedPassword = await bcrypt.hash(RegisterConfig.password, 12);
+  const hashedPassword = await bcrypt.hashSync(RegisterConfig.password, 12);
 
-  console.log(`[TEST]: Hashed Password: ${hashedPassword}`);
+  const user = new UserSchema({
+    email: RegisterConfig.email,
+    username: RegisterConfig.username,
+    password: hashedPassword,
+    date_of_birth: RegisterConfig.date_of_birth,
+  });
 
-  const token = jsonwebtoken.sign(RegisterConfig, "DiscordPriv");
-  res.json({ token });
+  await user.save().then(() => {
+    console.log(
+      `[ACCOUNTS]: ${user.username} has been created with the account id ${user._id}`
+    );
+  });
+
+  res.json({ token: generateToken(user.email, user.password) });
 });
 
 export = app;

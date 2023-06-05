@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { setConfigurations } from "./utils/serverConfigurations";
 import enviroment from "../enviroment";
+import Database from "./db/Database";
 
 // ******************************** Routes ********************************
 
@@ -9,7 +10,6 @@ import Users from "./routes/V9/Users";
 import Experiments from "./routes/V9/Experiments";
 import Auth from "./routes/V9/Auth";
 import Applications from "./routes/V9/Applications";
-// import V9 from "./routes/V9";
 
 /// ******************************** END ********************************
 
@@ -38,7 +38,17 @@ export default class Server {
       console.info(`[SERVER]: Morroid has started on port - ${this.port}`);
     });
 
+    this.dbConnect();
     this.route();
+  }
+
+  /**
+   * Connects to our database.
+   */
+  dbConnect(): Promise<void> {
+    const db = Database;
+
+    return db.connect();
   }
 
   /**
@@ -50,6 +60,5 @@ export default class Server {
     this.app.use("/api/v9/users", Users);
     this.app.use("/api/v9/auth", Auth);
     this.app.use("/api/v9/applications", Applications);
-    // this.app.use("/api/v9", V9);
   }
 }
