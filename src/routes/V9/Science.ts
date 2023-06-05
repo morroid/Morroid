@@ -1,12 +1,13 @@
 import { Router } from "express";
-import axios from "axios";
+
 const app = Router();
 
-app.get("/", async (req, res) => {
-  return await axios
-    .get("https://discord.com/api/v9/science")
-    .then((response) => {
-      res.json(response.data);
-    });
+app.all("/", async (req, res) => {
+  let { token, events } = req.body;
+
+  res.json({
+    token,
+    events,
+  });
 });
 export = app;
