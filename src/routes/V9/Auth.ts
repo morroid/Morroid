@@ -55,21 +55,24 @@ app.post("/login", async (req, res) => {
     login_code,
     captcha_key,
     login_source,
-    gift_code_sku_id
+    gift_code_sku_id,
   } = req.body;
 
-  const user = await User.findOne({
+  const user = await UserSchema.findOne({
     login,
     password,
     undelete,
     login_code,
     captcha_key,
     login_source,
-    gift_code_sku_id
+    gift_code_sku_id,
   });
+
   if (!user) {
+    console.error("Failed to login.");
     return res.status(400).json({ status: 400, error: "User not found" });
   }
+
   if (await bcrypt.compare(password, user.password)) {
     const token = generateToken(user.email, user.password);
     console.log(`${user.username} has logged in with the id ${user.id}`);
