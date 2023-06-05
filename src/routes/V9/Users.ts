@@ -207,7 +207,17 @@ app.get("/users/@me/clyde-consent", async (req, res) => {
     consent_status: 0,
   });
 });
-
+app.get("/users/@me/burst-credits", async (req, res) => {
+  res.json({
+    consent_status: 0,
+  });
+});
+app.get("/users/@me/affinities/users", async (req, res) => {
+  res.json({
+    "user_affinities": [],
+    "inverse_user_affinities": []
+});
+});
 app.get("/@me/applications/:id/entitlements", (req, res) => {
   let {
     sku_id,

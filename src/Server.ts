@@ -7,7 +7,9 @@ import Database from "./db/Database";
 
 import Assets from "./routes/Assets";
 import Users from "./routes/V9/Users";
+import Stickerpacks from "./routes/V9/Sticker-packs";
 import Experiments from "./routes/V9/Experiments";
+import Experiments from "./routes/V9/Science";
 import Auth from "./routes/V9/Auth";
 import Applications from "./routes/V9/Applications";
 import Channels from "./routes/V9/Channels";
@@ -58,7 +60,9 @@ export default class Server {
   route(): void {
     this.app.use("/assets", Assets);
     this.app.use("/api/V9/experiments", Experiments);
+    this.app.use("/api/V9/science", Science);
     this.app.use("/api/v9/users", Users);
+    this.app.use("/api/v9/sticker-packs", Stickerpacks);
     this.app.use("/api/v9/auth", Auth);
     this.app.use("/api/v9/applications", Applications);
     this.app.use("/api/v9/channels", Channels);

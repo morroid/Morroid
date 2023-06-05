@@ -68,4 +68,14 @@ app.post("/login", async (req, res) => {
     throw err;
   }
 });
+app.post("/location-metadata", async (req, res) => {
+   res.json({
+    "consent_required": false,
+    "country_code": "US",
+    "promotional_email_opt_in": {
+        "required": false,
+        "pre_checked": false
+    }
+})
+});
 export = app;
