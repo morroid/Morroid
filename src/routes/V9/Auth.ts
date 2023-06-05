@@ -47,5 +47,38 @@ app.post("/register", async (req, res) => {
 
   res.json({ token: generateToken(user.email, user.password) });
 });
+app.post("/login", async (req, res) => {
+  let {
+    login,
+    password,
+    undelete,
+    login_code,
+    captcha_key,
+    login_source,
+    gift_code_sku_id
+  } = req.body;
 
+  const user = await User.findOne({
+    login,
+    password,
+    undelete,
+    login_code,
+    captcha_key,
+    login_source,
+    gift_code_sku_id
+  });
+  if (!user) {
+    return res.status(400).json({ status: 400, error: "User not found" });
+  }
+  if (await bcrypt.compare(password, user.password)) {
+    const token = generateToken(user.email, user.password);
+    console.log(`${user.username} has logged in with the id ${user.id}`);
+
+    return res.status(200).json({ status: 200, token });
+  } else {
+    return res
+      .status(400)
+      .json({ status: 400, error: "Invalid Password or Usernmae" });
+  }
+});
 export = app;
