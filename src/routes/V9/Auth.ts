@@ -54,19 +54,15 @@ app.post("/login", async (req, res) => {
       return res.status(403).json({ error: "Failed to find user." });
     }
 
-    if (userId === user.id) {
-      const isValidPassword = await comparePassword(password, user.password);
+    const isValidPassword = await comparePassword(password, user.password);
 
-      if (!isValidPassword) {
-        return res
-          .status(403)
-          .json({ error: "Email or Password is incorrect." });
-      } else {
-        return res.json({
-          token: generateToken(user.id),
-          ...settings,
-        });
-      }
+    if (!isValidPassword) {
+      return res.status(403).json({ error: "Email or Password is incorrect." });
+    } else {
+      return res.json({
+        token: generateToken(user.id),
+        ...settings,
+      });
     }
   } catch (err) {
     throw err;
