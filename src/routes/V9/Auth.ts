@@ -66,7 +66,7 @@ app.post("/login", async (req, res) => {
     throw err;
   }
 });
-app.post("/location-metadata", async (req, res) => {
+app.get("/location-metadata", async (req, res) => {
   res.json({
     consent_required: false,
     country_code: "US",
