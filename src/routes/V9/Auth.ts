@@ -47,8 +47,6 @@ app.post("/login", async (req, res) => {
     email: login,
   });
 
-  const userId = generateId();
-
   try {
     if (!user) {
       return res.status(403).json({ error: "Failed to find user." });
@@ -69,13 +67,13 @@ app.post("/login", async (req, res) => {
   }
 });
 app.post("/location-metadata", async (req, res) => {
-   res.json({
-    "consent_required": false,
-    "country_code": "US",
-    "promotional_email_opt_in": {
-        "required": false,
-        "pre_checked": false
-    }
-})
+  res.json({
+    consent_required: false,
+    country_code: "US",
+    promotional_email_opt_in: {
+      required: false,
+      pre_checked: false,
+    },
+  });
 });
 export = app;
