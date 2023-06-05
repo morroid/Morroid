@@ -10,6 +10,7 @@ import Users from "./routes/V9/Users";
 import Experiments from "./routes/V9/Experiments";
 import Auth from "./routes/V9/Auth";
 import Applications from "./routes/V9/Applications";
+import Channels from "./routes/V9/Channels";
 
 /// ******************************** END ********************************
 
@@ -60,5 +61,6 @@ export default class Server {
     this.app.use("/api/v9/users", Users);
     this.app.use("/api/v9/auth", Auth);
     this.app.use("/api/v9/applications", Applications);
+    this.app.use("/api/v9/channels", Channels);
   }
 }
