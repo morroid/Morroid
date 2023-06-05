@@ -1,7 +1,7 @@
 {
   "name": "morroid",
   "version": "1.0.0",
-  "description": "A discord private server made for fun.",
+  "description": "Morroid is a custom discord server written in typescript made for customizability and fun.",
   "main": "dist/src/index.js",
   "scripts": {
     "start": "node dist/src/index.js",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/morroid/Morroid#readme",
   "dependencies": {
+    "@theinternetfolks/snowflake": "^1.3.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "chalk": "^5.2.0",
