@@ -44,12 +44,6 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   let { login, password } = req.body;
 
-  const settings: SettingsPayload = {
-    locale: "en",
-    theme: "dark",
-    index: undefined,
-  };
-
   const user = await UserSchema.findOne({
     email: login,
   });
@@ -66,8 +60,10 @@ app.post("/login", async (req, res) => {
     } else {
       return res.json({
         token: generateToken(user.id),
-        settings,
-        user_id: user.id
+        settings: {
+          locale: "en",
+          theme: "dark",
+        },
       });
     }
   } catch (err) {
