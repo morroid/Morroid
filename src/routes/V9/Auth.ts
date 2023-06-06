@@ -35,7 +35,7 @@ app.post("/register", async (req, res) => {
       console.log(`[ACCOUNTS]: Account Created with the Snowflake ${user.id}`);
     });
 
-    res.json({ token: generateToken(user.id) });
+    res.json({ token: generateToken(user.id, user.email) });
   } catch (err) {
     throw err;
   }
@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
       return res.status(403).json({ error: "Email or Password is incorrect." });
     } else {
       return res.json({
-        token: generateToken(user.id),
+        token: generateToken(user.id, user.email),
         settings,
         user_id: user.id
       });
