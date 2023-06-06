@@ -35,7 +35,7 @@ app.post("/register", async (req, res) => {
       console.log(`[ACCOUNTS]: Account Created with the Snowflake ${user.id}`);
     });
 
-    res.json({ token: generateToken(user.id) });
+    res.json({ token: await generateToken(user.id) });
   } catch (err) {
     throw err;
   }
@@ -43,12 +43,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   let { login, password } = req.body;
-
-  const settings: SettingsPayload = {
-    locale: "en",
-    theme: "dark",
-    index: undefined,
-  };
 
   const user = await UserSchema.findOne({
     email: login,
@@ -65,9 +59,11 @@ app.post("/login", async (req, res) => {
       return res.status(403).json({ error: "Email or Password is incorrect." });
     } else {
       return res.json({
-        token: generateToken(user.id),
-        settings,
-        user_id: user.id
+        token: await generateToken(user.id),
+        settings: {
+          locale: "en",
+          theme: "dark"
+        }
       });
     }
   } catch (err) {
