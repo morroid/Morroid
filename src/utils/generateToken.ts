@@ -1,13 +1,11 @@
 import { sign } from "jsonwebtoken";
-import { JWTSign } from "../payload/JsonWebTokenPayload";
 import Config from "../../enviroment";
 
 export function generateToken(id: string, email?: string) {
-  const iat = Math.floor(Date.now() / 1000);
+	const iat = Math.floor(Date.now() / 1000);
 	const algorithm = "HS256";
-
 	return new Promise((res, rej) => {
-		jwt.sign(
+		sign(
 			{ id, iat, email },
 			Config.jwtSecret,
 			{
