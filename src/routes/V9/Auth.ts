@@ -47,6 +47,7 @@ app.post("/login", async (req, res) => {
   const settings: SettingsPayload = {
     locale: "en",
     theme: "dark",
+    index: undefined,
   };
 
   const user = await UserSchema.findOne({
