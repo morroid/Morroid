@@ -67,6 +67,7 @@ app.post("/login", async (req, res) => {
       return res.json({
         token: generateToken(user.id),
         settings,
+        user_id: user.id
       });
     }
   } catch (err) {
