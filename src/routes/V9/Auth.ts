@@ -35,7 +35,7 @@ app.post("/register", async (req, res) => {
       console.log(`[ACCOUNTS]: Account Created with the Snowflake ${user.id}`);
     });
 
-    res.json({ token: generateToken(user.id) });
+    res.json({ token: await generateToken(user.id) });
   } catch (err) {
     throw err;
   }
