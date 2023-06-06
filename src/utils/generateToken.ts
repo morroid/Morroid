@@ -1,12 +1,11 @@
 import { sign } from "jsonwebtoken";
 import Config from "../../enviroment";
 
-export function generateToken(id: string, email?: string) {
-	const iat = Math.floor(Date.now() / 1000);
+export function generateToken(id: string) {
 	const algorithm = "HS256";
 	return new Promise((res, rej) => {
 		sign(
-			{ id, iat, email },
+			{ id },
 			Config.jwtSecret,
 			{
 				algorithm,
