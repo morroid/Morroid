@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import { setConfigurations } from "./utils/serverConfigurations";
 import enviroment from "../enviroment";
 import Database from "./db/Database";
+// import Gateway from "./gateway/Gateway";
 
 // ******************************** Routes ********************************
 

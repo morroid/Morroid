@@ -4,6 +4,7 @@ import { generateId } from "../../utils/generateId";
 import { hashPassword } from "../../utils/hashPassword";
 import { comparePassword } from "../../utils/comparePassword";
 import { RegisterPayload } from "../../payload/AuthPayload";
+import { SettingsPayload } from "../../payload/SettingsPayload";
 import UserSchema from "../../models/UserSchema";
 
 const app = Router();
@@ -41,7 +42,12 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  let { login, password, settings } = req.body;
+  let { login, password } = req.body;
+
+  const settings: SettingsPayload = {
+    locale: "en",
+    theme: "dark",
+  };
 
   const user = await UserSchema.findOne({
     email: login,
@@ -59,7 +65,7 @@ app.post("/login", async (req, res) => {
     } else {
       return res.json({
         token: generateToken(user.id),
-        ...settings,
+        settings,
       });
     }
   } catch (err) {
