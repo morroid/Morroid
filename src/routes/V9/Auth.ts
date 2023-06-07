@@ -64,8 +64,10 @@ app.post("/login", async (req, res) => {
         settings: {
           locale: "en",
           theme: "dark",
+          index: undefined,
         },
       });
+      console.log(generateToken(user.id))
     }
   } catch (err) {
     throw err;
