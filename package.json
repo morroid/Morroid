@@ -4,6 +4,7 @@
   "description": "Morroid is a custom discord server written in typescript made for customizability and fun.",
   "main": "dist/src/index.js",
   "scripts": {
+    "setup": "npm install && npm run build && npm start",
     "start": "node dist/src/index.js",
     "build": "tsc",
     "watch": "tsc --watch"

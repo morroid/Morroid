@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from "express";
 import { setConfigurations } from "./utils/serverConfigurations";
 import enviroment from "../enviroment";
 import Database from "./db/Database";
-// import Gateway from "./gateway/Gateway";
+import Gateway from "./gateway/Gateway";
 
 // ******************************** Routes ********************************
 
@@ -20,9 +20,11 @@ import Channels from "./routes/V9/Channels";
 export default class Server {
   private app: Application;
   private port = process.env.PORT || enviroment.PORT;
+  private gateway: Gateway;
 
   constructor() {
     this.app = express();
+    this.gateway = new Gateway();
   }
 
   /**
@@ -42,6 +44,7 @@ export default class Server {
       console.info(`[SERVER]: Morroid has started on port - ${this.port}`);
     });
 
+    this.gateway.init();
     this.dbConnect();
     this.route();
   }

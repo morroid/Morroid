@@ -36,7 +36,7 @@ app.post("/register", async (req, res) => {
     });
 
     res.json({ token: generateToken(user.id) });
-    console.log(generateToken(user.id))
+    console.log(generateToken(user.id));
   } catch (err) {
     throw err;
   }
@@ -64,10 +64,9 @@ app.post("/login", async (req, res) => {
         settings: {
           locale: "en",
           theme: "dark",
-          index: undefined,
+          // index: undefined,
         },
       });
-      console.log(generateToken(user.id))
     }
   } catch (err) {
     throw err;
