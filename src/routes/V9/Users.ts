@@ -214,9 +214,9 @@ app.get("/users/@me/burst-credits", async (req, res) => {
 });
 app.get("/users/@me/affinities/users", async (req, res) => {
   res.json({
-    "user_affinities": [],
-    "inverse_user_affinities": []
-});
+    user_affinities: [],
+    inverse_user_affinities: [],
+  });
 });
 app.get("/@me/applications/:id/entitlements", (req, res) => {
   let {
@@ -249,6 +249,13 @@ app.get("/@me/applications/:id/entitlements", (req, res) => {
       subscription_plan: {},
     },
   ]);
+});
+
+app.all("/@me/notes/:id", (req, res) => {
+  res.json({
+    id: req.params.id,
+    note: req.body.note,
+  });
 });
 
 export = app;

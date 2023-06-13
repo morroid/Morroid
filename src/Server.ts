@@ -14,6 +14,9 @@ import Science from "./routes/V9/Science";
 import Auth from "./routes/V9/Auth";
 import Applications from "./routes/V9/Applications";
 import Channels from "./routes/V9/Channels";
+import Drops from "./routes/V9/Drops";
+import CreatorMonetization from "./routes/V9/CreatorMonetization";
+import Guilds from "./routes/V9/Guilds";
 
 /// ******************************** END ********************************
 
@@ -70,5 +73,8 @@ export default class Server {
     this.app.use("/api/v9/auth", Auth);
     this.app.use("/api/v9/applications", Applications);
     this.app.use("/api/v9/channels", Channels);
+    this.app.use("/api/v9/drops", Drops);
+    this.app.use("/api/v9/creator-monetization", CreatorMonetization);
+    this.app.use("/api/v9/guilds", Guilds);
   }
 }
