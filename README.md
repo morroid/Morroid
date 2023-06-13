@@ -12,5 +12,6 @@ This project is still in development so somethings might not work as intended.
 
 ### Credits
 
-Skies
-Krowe moh
+Skies <br />
+Krowe moh <br />
+Kiko

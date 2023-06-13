@@ -1,59 +1,55 @@
-import WebSocket, { WebSocketServer } from "ws";
-import { EventEmitter } from "node:events";
+import WebSocket from "ws";
+import { EventEmitter } from "ws";
+import enviroment from "../../enviroment";
+import { GatewayPayload } from "../payload/GatewayPayload";
+
+// ******************** OPCODES ********************
+
+import Identify from "./OPCodes/Identify";
+import Heartbeat from "./OPCodes/Heartbeat";
+
+// ******************** END ********************
 
 export default class Gateway extends EventEmitter {
-  private socket: WebSocket.Server;
-  private interval: number;
+  private wss: WebSocket.Server;
 
   constructor() {
     super();
 
-    this.interval = 0;
-
-    this.socket = new WebSocket.Server(
-      {
-        port: 7777,
-        path: "/connect",
-      },
-      () => console.log("[GATEWAY]: WebSocket server has been created.")
+    this.wss = new WebSocket.Server({ port: enviroment.GATEWAY_PORT }, () =>
+      console.log(
+        `[GATEWAY]: Gateway has started with the port ${enviroment.GATEWAY_PORT}`
+      )
     );
   }
 
-  init(): void {
-    this.emit("connection", this.onConnection);
-    // this.emit("error", this.onError);
-    this.emit("close", this.onClosed);
-  }
-
-  onConnection(): void {
-    this.socket.on("connection", (websocket) => {
-      console.log("[GATEWAY]: New Connection");
-
-      websocket.on("open", () => {
-        console.log("[GATEWAY]: An Connection has been opened.");
-
-        // TODO (Skiesuwu): Finish onOpen
+  public init(): void {
+    this.wss.on("connection", (socket) => {
+      socket.on("message", (data) => {
+        const payload: GatewayPayload = JSON.parse(data.toString());
+        this.handlePayload(socket, payload);
       });
 
-      websocket.on("message", (data: any) => {
-        console.log(data.toString());
-
-        // TODO (Skiesuwu): Finish onMessage
+      socket.on("close", () => {
+        console.log("[GATEWAY]: the Gateway connection has been closed.");
       });
     });
   }
 
-  // onError(): void {
-  //   this.socket.on("error", (error) => {
-  //     return console.log(`[GATEWAY]: An error has been caught: ${error}`);
-  //   });
-  // }
+  private handlePayload(socket: WebSocket, payload: GatewayPayload): void {
+    switch (payload.op) {
+      case 1:
+        // Start Heartbeating
+        Heartbeat(this.wss);
+        break;
+      case 2:
+        // Identify
+        Identify(socket, payload.d);
+        break;
 
-  onClosed(): void {
-    this.socket.on("close", () => {
-      return console.log(
-        "[GATEWAY]: The WebSocket connection has been closed."
-      );
-    });
+      default:
+        console.warn(`[GATEWAY]: Unknown op code: ${payload.op}`);
+        break;
+    }
   }
 }

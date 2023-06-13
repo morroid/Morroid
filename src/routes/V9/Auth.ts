@@ -4,7 +4,6 @@ import { generateId } from "../../utils/generateId";
 import { hashPassword } from "../../utils/hashPassword";
 import { comparePassword } from "../../utils/comparePassword";
 import { RegisterPayload } from "../../payload/AuthPayload";
-import { SettingsPayload } from "../../payload/SettingsPayload";
 import UserSchema from "../../models/UserSchema";
 
 const app = Router();
