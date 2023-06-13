@@ -1,5 +1,5 @@
-import jsonwebtoken, { JwtPayload } from "jsonwebtoken";
-import enviroment from "../../enviroment";
+import { JwtPayload, verify } from "jsonwebtoken";
+import Config from "../../enviroment";
 
 /**
  *
@@ -9,19 +9,14 @@ import enviroment from "../../enviroment";
  */
 export default function checkToken(token: string): boolean {
   try {
-    const decodedToken = jsonwebtoken.verify(
+    const decodedToken = verify(
       token,
-      enviroment.jwtSecret
-    ) as JwtPayload;
+      Config.jwtSecret
+    ) ;
 
-    const { exp, iat, id } = decodedToken;
-    // const currentTime = Math.floor(Date.now() / 1000);
+    const { id, email } = decodedToken;
 
-    if (id == undefined) {
-      console.error("[GATEWAY]: user_id is undefined.");
-    }
-
-    if (!exp || !iat || !id) {
+    if (!id || !email) {
       console.error("[GATEWAY]: Token is missing essential claims");
       return false;
     }
