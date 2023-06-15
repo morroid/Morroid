@@ -2,6 +2,7 @@ import WebSocket from "ws";
 import { EventEmitter } from "ws";
 import enviroment from "../../enviroment";
 import { IdentifyEvent, HelloEvent } from "../payload/GatewayPayload";
+import { zlibSend } from "../utils/zlibSend";
 
 // ******************** OPCODES ********************
 
@@ -37,7 +38,8 @@ export default class Gateway extends EventEmitter {
         console.log("[GATEWAY]: the Gateway connection has been closed.");
       });
 
-      socket.send(
+      zlibSend(
+        socket,
         JSON.stringify({
           op: 10,
           d: {

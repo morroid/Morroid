@@ -6,6 +6,7 @@ import {
 } from "../../payload/GatewayPayload";
 import checkToken from "../../utils/checkToken";
 import UserSchema from "../../models/UserSchema";
+import { zlibSend } from "../../utils/zlibSend";
 
 export default async function Identify(
   socket: WebSocket,
@@ -42,8 +43,8 @@ export default async function Identify(
         },
       },
     };
-    console.log(`[GATEWAY]: Event - READY ${response.d}`);
-    socket.send(JSON.stringify(response));
+    console.log(`[GATEWAY]: Event - READY`);
+    zlibSend(socket, JSON.stringify(response));
   } else {
     const response: InvalidSessionEvent = {
       op: 9,
@@ -52,7 +53,7 @@ export default async function Identify(
 
     console.error("[GATEWAY]: Invalid Session.");
 
-    socket.send(JSON.stringify(response));
+    zlibSend(socket, JSON.stringify(response));
     socket.close();
   }
 }

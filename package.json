@@ -33,7 +33,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.2",
-    "ws": "^8.13.0"
+    "ws": "^8.13.0",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
