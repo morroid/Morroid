@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import jsonwebtoken, { JwtPayload } from "jsonwebtoken";
 import enviroment from "../../enviroment";
 import UserSchema from "../models/UserSchema";
@@ -6,6 +7,10 @@ export type UserTokenData = {
   user?: JwtPayload;
   decoded: any;
 };
+=======
+import { JwtPayload, verify } from "jsonwebtoken";
+import Config from "../../enviroment";
+>>>>>>> cc502669c1e2314975edbbbe1beb2c701a7eb6ed
 
 /**
  * check if the user's token is valid or not.
@@ -20,10 +25,29 @@ export default async function checkToken(
   let decoded;
 
   try {
+<<<<<<< HEAD
     decoded = jsonwebtoken.verify(token, enviroment.jwtSecret);
   } catch {
     console.error("[TOKEN_CHECK]: Invalid Token.");
     return null;
+=======
+    const decodedToken = verify(
+      token,
+      Config.jwtSecret
+    ) ;
+
+    const { id, email } = decodedToken;
+
+    if (!id || !email) {
+      console.error("[GATEWAY]: Token is missing essential claims");
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(`[GATEWAY]: Error ${err}`);
+    return false;
+>>>>>>> cc502669c1e2314975edbbbe1beb2c701a7eb6ed
   }
 
   if (typeof decoded == "string" || !decoded.id || !decoded.iat) {
