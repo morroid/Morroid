@@ -47,7 +47,7 @@ type team = {
   members: Array<TeamMember>;
   name: string;
   owner_user_id: snowflake;
-}
+};
 
 type GuildFeature =
   | "ANIMATED_BANNER"

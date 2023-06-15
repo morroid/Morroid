@@ -22,8 +22,16 @@ export interface GatewayEvent {
   t?: string;
 }
 
+export interface HelloEvent extends GatewayEvent {
+  op: 10;
+  d: {
+    heartbeat_interval: number;
+  };
+}
+
 export interface DispatchEvent extends GatewayEvent {
   op: 0;
+  t: string;
 }
 
 export interface IdentifyEvent extends GatewayEvent {
@@ -49,6 +57,8 @@ export interface ReadyEvent extends DispatchEvent {
     shard?: [number, number];
     application: application;
   };
+  s: number;
+  t: "READY" | "Ready";
 }
 
 export interface InvalidSessionEvent extends GatewayEvent {

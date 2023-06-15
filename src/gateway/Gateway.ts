@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import { EventEmitter } from "ws";
 import enviroment from "../../enviroment";
-import { IdentifyEvent } from "../payload/GatewayPayload";
+import { IdentifyEvent, HelloEvent } from "../payload/GatewayPayload";
 
 // ******************** OPCODES ********************
 
@@ -26,6 +26,7 @@ export default class Gateway extends EventEmitter {
   public init(): void {
     this.wss.on("connection", (socket) => {
       console.log("[GATEWAY]: A Gateway connection has been picked up.");
+
       socket.on("message", (data) => {
         const payload: IdentifyEvent = JSON.parse(data.toString());
 
@@ -35,6 +36,15 @@ export default class Gateway extends EventEmitter {
       socket.on("close", () => {
         console.log("[GATEWAY]: the Gateway connection has been closed.");
       });
+
+      socket.send(
+        JSON.stringify({
+          op: 10,
+          d: {
+            heartbeat_interval: 5000,
+          },
+        } satisfies HelloEvent)
+      );
     });
   }
 
