@@ -9,5 +9,5 @@ export default function Heartbeat(
   const message: HeartbeatACKEvent = {
     op: 11
   };
-  zlibSend(socket, JSON.stringify(message));
+  socket.send(JSON.stringify(message));
 }
