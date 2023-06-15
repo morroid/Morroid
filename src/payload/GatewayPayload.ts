@@ -65,3 +65,11 @@ export interface InvalidSessionEvent extends GatewayEvent {
   op: 9;
   d: boolean;
 }
+export interface HeartbeatEvent extends GatewayEvent {
+  op: 1;
+  d: number;
+}
+
+export interface HeartbeatAckEvent extends GatewayEvent {
+  op: 11;
+}

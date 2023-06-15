@@ -1,18 +1,13 @@
 import { WebSocket } from "ws";
-import { GatewayEvent } from "../../payload/GatewayPayload";
+import { HeartbeatAckEvent as HeartbeatACKEvent, HeartbeatEvent } from "../../payload/GatewayPayload";
 import { zlibSend } from "../../utils/zlibSend";
 
 export default function Heartbeat(
   socket: WebSocket,
-  payload: GatewayEvent
+  payload: HeartbeatEvent
 ): void {
-  const message: GatewayEvent = {
-    op: 1,
-    t: "",
-    d: {
-      op: 11,
-      d: {},
-    },
+  const message: HeartbeatACKEvent = {
+    op: 11
   };
   zlibSend(socket, JSON.stringify(message));
 }

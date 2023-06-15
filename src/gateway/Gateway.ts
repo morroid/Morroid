@@ -1,7 +1,13 @@
 import WebSocket from "ws";
 import { EventEmitter } from "ws";
 import enviroment from "../../enviroment";
-import { IdentifyEvent, HelloEvent } from "../payload/GatewayPayload";
+import {
+  IdentifyEvent,
+  HelloEvent,
+  HeartbeatAckEvent,
+  GatewayEvent,
+  HeartbeatEvent,
+} from "../payload/GatewayPayload";
 import { zlibSend } from "../utils/zlibSend";
 
 // ******************** OPCODES ********************
@@ -50,15 +56,15 @@ export default class Gateway extends EventEmitter {
     });
   }
 
-  private handlePayload(socket: WebSocket, payload: IdentifyEvent): void {
+  private handlePayload(socket: WebSocket, payload: GatewayEvent): void {
     switch (payload.op) {
       case 1 as number:
         // Heartbeat ACK
-        Heartbeat(socket, payload);
+        Heartbeat(socket, payload as HeartbeatEvent);
         break;
       case 2 as number:
-        // Identify & Dispatch
-        Identify(socket, payload);
+        // Identify
+        Identify(socket, payload as IdentifyEvent);
         break;
 
       default:
