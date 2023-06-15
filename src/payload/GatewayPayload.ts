@@ -12,6 +12,7 @@ type JSONValue =
   | object
   | number
   | boolean
+  | null
   | { [x: string]: JSONValue }
   | Array<JSONValue>;
 

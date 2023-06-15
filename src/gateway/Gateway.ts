@@ -49,7 +49,7 @@ export default class Gateway extends EventEmitter {
         JSON.stringify({
           op: 10,
           d: {
-            heartbeat_interval: 5000,
+            heartbeat_interval: 30000,
           },
         } satisfies HelloEvent)
       );
@@ -60,7 +60,7 @@ export default class Gateway extends EventEmitter {
     switch (payload.op) {
       case 1 as number:
         // Heartbeat ACK
-        Heartbeat(socket, payload as HeartbeatEvent);
+        Heartbeat(socket);
         break;
       case 2 as number:
         // Identify
