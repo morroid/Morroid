@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import { EventEmitter } from "ws";
 import enviroment from "../../enviroment";
-import { GatewayPayload } from "../payload/GatewayPayload";
+import { IdentifyEvent } from "../payload/GatewayPayload";
 
 // ******************** OPCODES ********************
 
@@ -25,8 +25,10 @@ export default class Gateway extends EventEmitter {
 
   public init(): void {
     this.wss.on("connection", (socket) => {
+      console.log("[GATEWAY]: A Gateway connection has been picked up.");
       socket.on("message", (data) => {
-        const payload: GatewayPayload = JSON.parse(data.toString());
+        const payload: IdentifyEvent = JSON.parse(data.toString());
+
         this.handlePayload(socket, payload);
       });
 
@@ -36,15 +38,15 @@ export default class Gateway extends EventEmitter {
     });
   }
 
-  private handlePayload(socket: WebSocket, payload: GatewayPayload): void {
+  private handlePayload(socket: WebSocket, payload: IdentifyEvent): void {
     switch (payload.op) {
-      case 1:
-        // Start Heartbeating
-        Heartbeat(this.wss);
+      case 1 as number:
+        // Heartbeat ACK
+        Heartbeat(socket, payload);
         break;
-      case 2:
-        // Identify
-        Identify(socket, payload.d);
+      case 2 as number:
+        // Identify & Dispatch
+        Identify(socket, payload);
         break;
 
       default:

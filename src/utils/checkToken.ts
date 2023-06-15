@@ -1,34 +1,52 @@
 import jsonwebtoken, { JwtPayload } from "jsonwebtoken";
 import enviroment from "../../enviroment";
+import UserSchema from "../models/UserSchema";
+
+export type UserTokenData = {
+  user?: JwtPayload;
+  decoded: any;
+};
 
 /**
- *
+ * check if the user's token is valid or not.
  * @param token
- * @summary Checks if the token is valid or not.
  * @summary if it is valid return true, if its not return false.
  */
-export default function checkToken(token: string): boolean {
+export default async function checkToken(
+  token: string
+): Promise<UserTokenData | null> {
+  token = token.replace("Bearer ", "");
+
+  let decoded;
+
   try {
-    const decodedToken = jsonwebtoken.verify(
-      token,
-      enviroment.jwtSecret
-    ) as JwtPayload;
-
-    const { exp, iat, id } = decodedToken;
-    // const currentTime = Math.floor(Date.now() / 1000);
-
-    if (id == undefined) {
-      console.error("[GATEWAY]: user_id is undefined.");
-    }
-
-    if (!exp || !iat || !id) {
-      console.error("[GATEWAY]: Token is missing essential claims");
-      return false;
-    }
-
-    return true;
-  } catch (err) {
-    console.error(`[GATEWAY]: Error ${err}`);
-    return false;
+    decoded = jsonwebtoken.verify(token, enviroment.jwtSecret);
+  } catch {
+    console.error("[TOKEN_CHECK]: Invalid Token.");
+    return null;
   }
+
+  if (typeof decoded == "string" || !decoded.id || !decoded.iat) {
+    console.error("[TOKEN_CHECK]: Invalid Token.");
+    return null;
+  }
+
+  const user = await UserSchema.findOne({
+    id: decoded.id,
+  });
+
+  if (!user) {
+    console.error("[TOKEN_CHECK]: Invalid Token.");
+    return null;
+  }
+
+  if (
+    decoded.iat * 1000 <
+    new Date(user?.data?.valid_tokens_since as Date).setSeconds(0, 0)
+  ) {
+    console.error("[TOKEN_CHECK]: Invalid Token.");
+    return null;
+  }
+
+  return { user, decoded } as UserTokenData;
 }

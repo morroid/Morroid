@@ -1,8 +1,14 @@
-import { WebSocketServer } from "ws";
-import broadcastEvent from "../../utils/broadcastEvent";
+import { WebSocket } from "ws";
+import { GatewayEvent } from "../../payload/GatewayPayload";
 
-export default function Heartbeat(socket: WebSocketServer): NodeJS.Timer {
-  return setTimeout(() => {
-    broadcastEvent(socket, { op: 1, d: null }) as void;
-  }, 5000);
+export default function Heartbeat(socket: WebSocket, payload: GatewayEvent): void {
+  const message: GatewayEvent = {
+    op: 1,
+    t: "",
+    d: {
+      op: 11,
+      d: {},
+    },
+  };
+  socket.send(JSON.stringify(message));
 }

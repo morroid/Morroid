@@ -6,7 +6,6 @@ import Gateway from "./gateway/Gateway";
 
 // ******************************** Routes ********************************
 
-import Assets from "./routes/Assets";
 import Users from "./routes/V9/Users";
 import Stickerpacks from "./routes/V9/Sticker-packs";
 import Experiments from "./routes/V9/Experiments";
@@ -65,7 +64,6 @@ export default class Server {
    * Every Route we will be needing.
    */
   route(): void {
-    this.app.use("/assets", Assets);
     this.app.use("/api/V9/experiments", Experiments);
     this.app.use("/api/V9/science", Science);
     this.app.use("/api/v9/users", Users);

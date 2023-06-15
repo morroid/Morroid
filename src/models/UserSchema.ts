@@ -24,5 +24,8 @@ const userSchema = new Schema({
     type: Date,
     required: true,
   },
+  data: {
+    valid_tokens_since: Date,
+  },
 });
 export default model("Users", userSchema);
