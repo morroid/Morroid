@@ -1,5 +1,6 @@
 import WebSocket from "ws";
 import {
+  HelloEvent,
   IdentifyEvent,
   InvalidSessionEvent,
   ReadyEvent,
@@ -15,17 +16,17 @@ export default async function Identify(
 ): Promise<void> {
   let { d } = data;
 
-  const token = await checkToken(d.token as string);
+  const token = await checkToken(d.token);
   const user = await UserSchema.findOne({
     id: token?.decoded.id, // get the user's snowflake(id) from the decoded token.
   });
 
   if (token) {
-    const response = {
+    const response: ReadyEvent = {
       t: "READY",
       s: 1,
       op: 0,
-      d: {
+      d: {  
         v: 9,
         users: [],
         user_settings_proto: "",
@@ -36,7 +37,7 @@ export default async function Identify(
         },
         user: {
           verified: true,
-          username: "sky",
+          username: user!.username,
           purchased_flags: 0,
           pronouns: "",
           premium_type: 0,
@@ -45,18 +46,18 @@ export default async function Identify(
           nsfw_allowed: true,
           mobile: true,
           mfa_enabled: true,
-          id: "123456789012345678",
-          global_name: "Sky",
+          id: user?.id,
+          global_name: user?.username,
           flags: 0,
-          email: "a@a.a",
-          discriminator: "0",
+          email: user?.email,
+          discriminator: "0000",
           desktop: false,
-          bio: "",
+          bio: "Welcome to Morroid.",
           banner_color: null,
           banner: null,
           avatar_decoration: null,
-          avatar: null,
-          accent_color: null,
+          avatar: undefined,
+          accent_color: undefined,
         },
         tutorial: null,
         sessions: [],
@@ -87,6 +88,15 @@ export default async function Identify(
         auth_session_id_hash: "",
         api_code_version: 1,
         analytics_token: "",
+        application: {
+          id: user?.id,
+          name: user!.username,
+          description: "Welcome to morroid",
+          bot_public: false,
+          bot_require_code_grant: false,
+          summary: "",
+          verify_key: "ratio",
+        },
       },
     };
     Logger.log(`Event - READY`);

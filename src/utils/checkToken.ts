@@ -43,7 +43,7 @@ export default async function checkToken(
 
   if (
     decoded.iat * 1000 <
-    new Date(user?.data?.valid_tokens_since as Date).setSeconds(0, 0)
+    new Date(user.data!.valid_tokens_since!).setSeconds(0, 0)
   ) {
     Logger.error("Invalid Token.");
     return null;

@@ -52,6 +52,31 @@ export interface IdentifyEvent extends GatewayEvent {
 export interface ReadyEvent extends DispatchEvent {
   d: {
     v: number;
+    users?: Array<object>;
+    user_settings_proto?: string;
+    user_guild_settings: {
+      version?: number;
+      partial?: boolean;
+      entries?: [];
+    };
+    tutorial?: null;
+    sessions?: [];
+    relationships?: [];
+    session_type: string;
+    read_state?: object;
+    private_channels?: [];
+    merged_members?: [];
+    guild_join_requests?: [];
+    guild_experiments?: [];
+    geo_ordered_rtc_regions?: [];
+    friend_suggestion_count?: 0;
+    experiments?: [];
+    country_code: "US";
+    consents?: object;
+    connected_accounts?: [];
+    auth_session_id_hash?: string;
+    api_code_version?: number;
+    analytics_token?: string;
     user: user;
     guilds: Array<UnavailableGuild>;
     session_id: string;

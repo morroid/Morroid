@@ -1,15 +1,13 @@
 import { WebSocket } from "ws";
 import {
-  HeartbeatAckEvent as HeartbeatACKEvent,
+  HeartbeatAckEvent,
   HeartbeatEvent,
 } from "../../payload/GatewayPayload";
 import { zlibSend } from "../../utils/zlibSend";
-import { timeout } from "../../utils/timeout";
 
-export default function Heartbeat(socket: WebSocket): void {
-  timeout(socket, 45000);
+export default function Heartbeat(socket: WebSocket, payload: HeartbeatEvent): void {
 
-  const message: HeartbeatACKEvent = {
+  const message: HeartbeatAckEvent = {
     op: 11,
   };
 

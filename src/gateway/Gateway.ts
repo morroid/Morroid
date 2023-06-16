@@ -56,6 +56,7 @@ export default class Gateway extends EventEmitter {
         s: null,
         d: {
           heartbeat_interval: 41250,
+          _trace: ['["gateway-prd-us-east1-c-shr1",{"micros":0.0}]'],
         },
       } satisfies HelloEvent)
     );
@@ -63,11 +64,11 @@ export default class Gateway extends EventEmitter {
 
   private handlePayload(socket: WebSocket, payload: GatewayEvent): void {
     switch (payload.op) {
-      case 1 as number:
+      case 1:
         // Heartbeat ACK
-        Heartbeat(socket);
+        Heartbeat(socket, payload as HeartbeatEvent);
         break;
-      case 2 as number:
+      case 2:
         // Identify
         Identify(socket, payload as IdentifyEvent);
         break;

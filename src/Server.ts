@@ -17,6 +17,7 @@ import Channels from "./routes/V9/Channels";
 import Drops from "./routes/V9/Drops";
 import CreatorMonetization from "./routes/V9/CreatorMonetization";
 import Guilds from "./routes/V9/Guilds";
+import Status from "./routes/V2/Status";
 
 /// ******************************** END ********************************
 
@@ -75,5 +76,8 @@ export default class Server {
     this.app.use("/api/v9/drops", Drops);
     this.app.use("/api/v9/creator-monetization", CreatorMonetization);
     this.app.use("/api/v9/guilds", Guilds);
+
+    // V2 API
+    this.app.use("/api/v2", Status);
   }
 }

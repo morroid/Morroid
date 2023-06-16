@@ -216,13 +216,23 @@ export type UpdatePresence = {
 export type user = {
   id: snowflake;
   username: string;
+  purchased_flags?: number;
+  pronouns?: string;
+  premium?: boolean;
+  phone?: string | null;
+  mobile?: boolean;
+  desktop?: boolean;
+  bio?: string;
+  banner_color?: null;
+  avatar_decoration?: null;
+  nsfw_allowed?: boolean;
   discriminator: string;
   global_name?: string;
   avatar?: string;
   bot?: boolean;
   system?: boolean;
   mfa_enabled?: boolean;
-  banner?: string;
+  banner?: string | null;
   accent_color?: number;
   locale?: string;
   verified?: boolean;
