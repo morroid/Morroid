@@ -1,6 +1,7 @@
 import jsonwebtoken, { JwtPayload } from "jsonwebtoken";
 import enviroment from "../../enviroment";
 import UserSchema from "../models/UserSchema";
+import Logger from "./logging";
 
 export type UserTokenData = {
   user?: JwtPayload;
@@ -22,12 +23,12 @@ export default async function checkToken(
   try {
     decoded = jsonwebtoken.verify(token, enviroment.jwtSecret);
   } catch {
-    console.error("[TOKEN_CHECK]: Invalid Token.");
+    Logger.error("Invalid Token.");
     return null;
   }
 
   if (typeof decoded == "string" || !decoded.id || !decoded.iat) {
-    console.error("[TOKEN_CHECK]: Invalid Token.");
+    Logger.error("Invalid Token.");
     return null;
   }
 
@@ -36,7 +37,7 @@ export default async function checkToken(
   });
 
   if (!user) {
-    console.error("[TOKEN_CHECK]: Invalid Token.");
+    Logger.error("Failed to find user.");
     return null;
   }
 
@@ -44,7 +45,7 @@ export default async function checkToken(
     decoded.iat * 1000 <
     new Date(user?.data?.valid_tokens_since as Date).setSeconds(0, 0)
   ) {
-    console.error("[TOKEN_CHECK]: Invalid Token.");
+    Logger.error("Invalid Token.");
     return null;
   }
 

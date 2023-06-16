@@ -3,6 +3,7 @@ import { setConfigurations } from "./utils/serverConfigurations";
 import enviroment from "../enviroment";
 import Database from "./db/Database";
 import Gateway from "./gateway/Gateway";
+import Logger from "./utils/logging";
 
 // ******************************** Routes ********************************
 
@@ -43,7 +44,7 @@ export default class Server {
     this.setConfigurations();
 
     this.app.listen(this.port, () => {
-      console.info(`[SERVER]: Morroid has started on port - ${this.port}`);
+      Logger.log(`Morroid has started on port - ${this.port}`);
     });
 
     this.gateway.init();

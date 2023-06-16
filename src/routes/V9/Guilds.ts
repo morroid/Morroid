@@ -1,6 +1,7 @@
 import UserSchema from "../../models/UserSchema";
 import GuildSchema from "../../models/GuildSchema";
 import { Router } from "express";
+import Logger from "../../utils/logging";
 const app = Router();
 
 // ill rewrite this.
@@ -29,7 +30,7 @@ app.post("/", async (req, res) => {
 
   try {
     guild?.save().then(() => {
-      console.log(`Guild has been created with the name: ${guild.name}`);
+      Logger.log(`Guild has been created with the name: ${guild.name}`);
     });
 
     res.status(200).json({

@@ -19,14 +19,15 @@ type JSONValue =
 export interface GatewayEvent {
   op: number;
   d?: JSONValue;
-  s?: number;
-  t?: string;
+  s?: number | null;
+  t?: string | null;
 }
 
 export interface HelloEvent extends GatewayEvent {
   op: 10;
   d: {
     heartbeat_interval: number;
+    _trace?: Array<string>;
   };
 }
 

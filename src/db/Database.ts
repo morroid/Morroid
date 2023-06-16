@@ -1,4 +1,5 @@
 import { connect } from "mongoose";
+import Logger from "../utils/logging";
 import Config from "../../enviroment";
 
 export default class Database {
@@ -8,7 +9,7 @@ export default class Database {
    */
   static connect(): Promise<void> {
     return connect(Config.DatabaseConfiguration.mongodbUri).then(() => {
-      console.log("[DATABASE]: Database connection has been established.");
+      Logger.log("Database connection has been established.");
     });
   }
 }

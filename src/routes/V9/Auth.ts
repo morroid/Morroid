@@ -5,6 +5,7 @@ import { hashPassword } from "../../utils/hashPassword";
 import { comparePassword } from "../../utils/comparePassword";
 import { RegisterPayload } from "../../payload/AuthPayload";
 import UserSchema from "../../models/UserSchema";
+import Logger from "../../utils/logging";
 
 const app = Router();
 
@@ -31,11 +32,10 @@ app.post("/register", async (req, res) => {
     });
 
     await user.save().then(() => {
-      console.log(`[ACCOUNTS]: Account Created with the Snowflake ${user.id}`);
+      Logger.log(`Account Created with the Snowflake ${user.id}`);
     });
 
     res.json({ token: generateToken(user.id) });
-    console.log(generateToken(user.id));
   } catch (err) {
     throw err;
   }

@@ -8,6 +8,7 @@ import {
   GatewayEvent,
   HeartbeatEvent,
 } from "../payload/GatewayPayload";
+import Logger from "../utils/logging";
 import { zlibSend } from "../utils/zlibSend";
 
 // ******************** OPCODES ********************
@@ -24,15 +25,13 @@ export default class Gateway extends EventEmitter {
     super();
 
     this.wss = new WebSocket.Server({ port: enviroment.GATEWAY_PORT }, () =>
-      console.log(
-        `[GATEWAY]: Gateway has started with the port ${enviroment.GATEWAY_PORT}`
-      )
+      Logger.log(`Gateway has started with the port ${enviroment.GATEWAY_PORT}`)
     );
   }
 
   public init(): void {
     this.wss.on("connection", (socket) => {
-      console.log("[GATEWAY]: A Gateway connection has been picked up.");
+      Logger.log("A Gateway connection has been picked up.");
 
       socket.on("message", (data) => {
         const payload: IdentifyEvent = JSON.parse(data.toString());
@@ -41,19 +40,25 @@ export default class Gateway extends EventEmitter {
       });
 
       socket.on("close", () => {
-        console.log("[GATEWAY]: the Gateway connection has been closed.");
+        Logger.log("the Gateway connection has been closed.");
       });
 
-      zlibSend(
-        socket,
-        JSON.stringify({
-          op: 10,
-          d: {
-            heartbeat_interval: 30000,
-          },
-        } satisfies HelloEvent)
-      );
+      this.handleHello(socket);
     });
+  }
+
+  handleHello(socket: WebSocket): void {
+    return zlibSend(
+      socket,
+      JSON.stringify({
+        op: 10,
+        t: null,
+        s: null,
+        d: {
+          heartbeat_interval: 41250,
+        },
+      } satisfies HelloEvent)
+    );
   }
 
   private handlePayload(socket: WebSocket, payload: GatewayEvent): void {
@@ -68,7 +73,7 @@ export default class Gateway extends EventEmitter {
         break;
 
       default:
-        console.warn(`[GATEWAY]: Unknown op code: ${payload.op}`);
+        Logger.warn(`Unknown op code: ${payload.op}`);
         break;
     }
   }
