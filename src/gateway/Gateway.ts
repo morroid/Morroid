@@ -50,15 +50,14 @@ export default class Gateway extends EventEmitter {
   handleHello(socket: WebSocket): void {
     return zlibSend(
       socket,
-      JSON.stringify({
-        op: 10,
-        t: null,
-        s: null,
-        d: {
-          heartbeat_interval: 41250,
-          _trace: ['["gateway-prd-us-east1-c-shr1",{"micros":0.0}]'],
-        },
-      } satisfies HelloEvent)
+      JSON.stringify(
+        ({
+          op: 10,
+          d: {
+            heartbeat_interval: 30000,
+          },
+        } satisfies HelloEvent)
+      )
     );
   }
 

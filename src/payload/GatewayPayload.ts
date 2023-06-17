@@ -62,7 +62,6 @@ export interface ReadyEvent extends DispatchEvent {
     tutorial?: null;
     sessions?: [];
     relationships?: [];
-    session_type: string;
     read_state?: object;
     private_channels?: [];
     merged_members?: [];

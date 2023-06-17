@@ -1,6 +1,5 @@
 import WebSocket from "ws";
 import {
-  HelloEvent,
   IdentifyEvent,
   InvalidSessionEvent,
   ReadyEvent,
@@ -9,29 +8,30 @@ import checkToken from "../../utils/checkToken";
 import UserSchema from "../../models/UserSchema";
 import Logger from "../../utils/logging";
 import { zlibSend } from "../../utils/zlibSend";
+var flags: number = 0;
 
 export default async function Identify(
   socket: WebSocket,
   data: IdentifyEvent
 ): Promise<void> {
   let { d } = data;
-
   const token = await checkToken(d.token);
   const user = await UserSchema.findOne({
     id: token?.decoded.id, // get the user's snowflake(id) from the decoded token.
   });
+  let users: any[] = [];
 
   if (token) {
     const response: ReadyEvent = {
-      t: "READY",
-      s: 1,
       op: 0,
-      d: {  
+      t: "READY",
+      s: data.s as number,
+      d: {
         v: 9,
-        users: [],
+        users: users.filter((x) => x === user?.username),
         user_settings_proto: "",
         user_guild_settings: {
-          version: 1,
+          version: 642,
           partial: false,
           entries: [],
         },
@@ -48,7 +48,7 @@ export default async function Identify(
           mfa_enabled: true,
           id: user?.id,
           global_name: user?.username,
-          flags: 0,
+          flags: flags ?? 0,
           email: user?.email,
           discriminator: "0000",
           desktop: false,
@@ -59,14 +59,12 @@ export default async function Identify(
           avatar: undefined,
           accent_color: undefined,
         },
-        tutorial: null,
         sessions: [],
-        session_type: "normal",
         session_id: "",
         resume_gateway_url: "wss://gateway.discord.gg",
         relationships: [],
         read_state: {
-          version: 1,
+          version: 304128,
           partial: false,
           entries: [],
         },
@@ -90,17 +88,10 @@ export default async function Identify(
         analytics_token: "",
         application: {
           id: user?.id,
-          name: user!.username,
-          description: "Welcome to morroid",
-          bot_public: false,
-          bot_require_code_grant: false,
-          summary: "",
-          verify_key: "ratio",
+          flags: flags ?? 0,
         },
       },
     };
-    Logger.log(`Event - READY`);
-    Logger.debug(JSON.stringify(response));
     zlibSend(socket, JSON.stringify(response));
   } else {
     const response: InvalidSessionEvent = {

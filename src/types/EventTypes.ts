@@ -263,17 +263,17 @@ export type UnavailableGuild = {
 
 export type application = {
   id: snowflake;
-  name: string;
+  name?: string;
   icon?: string;
-  description: string;
+  description?: string;
   rpc_origins?: Array<string>;
-  bot_public: boolean;
-  bot_require_code_grant: boolean;
+  bot_public?: boolean;
+  bot_require_code_grant?: boolean;
   terms_of_service_url?: string;
   privacy_policy_url?: string;
   owner?: user; // (partial)
-  summary: string; // (DEPRECATED) EMPTY STRING
-  verify_key: string;
+  summary?: string; // (DEPRECATED) EMPTY STRING
+  verify_key?: string;
   team?: Array<team>;
   guild_id?: snowflake;
   primary_sku_id?: snowflake;
