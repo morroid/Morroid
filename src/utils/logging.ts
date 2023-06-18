@@ -26,23 +26,15 @@ function logMessage(message: string, type: string, color: keyof Chalk): void {
   const portPattern = /(\d+)/g;
   const Ports = `${enviroment.PORT}${enviroment.GATEWAY_PORT}`;
   const matches = message.match(portPattern);
-
-  if (matches) {
-    const formattedMessage = matches.reduce((acc, match) => {
-      const port = parseInt(match, 10);
-      const highlightColor =
-        port === parseInt(Ports, 10) ? chalk.greenBright : chalkColor;
-      return acc.replace(match, highlightColor(match));
-    }, message);
-
-    const finalMessage = `${chalk.gray(timestamp)} [${chalkColor(
-      type
-    )}] ${formattedMessage}`;
-    console.log(finalMessage);
-  } else {
-    const formattedMessage = `${chalk.gray(timestamp)} [${chalkColor(
-      type
-    )}] ${message}`;
-    console.log(formattedMessage);
-  }
+  const formattedMessage = matches ? matches.reduce((acc, match) => {
+    const port = parseInt(match, 10);
+    const highlightColor = port === parseInt(Ports, 10) ? chalk.greenBright : chalkColor;
+    return acc.replace(match, highlightColor(match));
+  }, message) : null;
+  const finalMessage = matches ? `${chalk.gray(timestamp)} [${chalkColor(
+    type
+  )}] ${formattedMessage}` : `${chalk.gray(timestamp)} [${chalkColor(
+    type
+  )}] ${message}`;
+  console.log(finalMessage);
 }
