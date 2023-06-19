@@ -7,15 +7,15 @@ export default {
   },
 
   debug(message: string): void {
-    logMessage(message, "Debug", "blueBright");
+    logMessage(message, "Discord", "blueBright");
   },
 
   error(message: string): void {
-    logMessage(message, "Error", "redBright");
+    logMessage(message, "Discord", "redBright");
   },
 
   warn(message: string): void {
-    logMessage(message, "Warn", "yellowBright");
+    logMessage(message, "Discord", "yellowBright");
   },
 };
 
